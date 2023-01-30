@@ -1,3 +1,70 @@
 h1, h2 {
-  font-family: Lato;
+  const squares = document.querySelectorAll('.square');
+let currentPlayer = "X";
+
+for (const square of squares) {
+  square.addEventListener('click', handleClick);
+}
+
+function handleClick(e) {
+  const square = e.target;
+  square.textContent = currentPlayer;
+  square.removeEventListener('click', handleClick);
+  checkForWinner();
+  switchPlayer();
+}
+
+function switchPlayer() {
+  currentPlayer = currentPlayer === "X" ? "O" : "X";
+}
+
+function checkForWinner() {
+  // check rows
+  for (let i = 0; i < 9; i += 3) {
+    if (
+      squares[i].textContent === currentPlayer &&
+      squares[i + 1].textContent === currentPlayer &&
+      squares[i + 2].textContent === currentPlayer
+    ) {
+      return showWinner();
+    }
+  }
+
+  // check columns
+  for (let i = 0; i < 3; i++) {
+    if (
+      squares[i].textContent === currentPlayer &&
+      squares[i + 3].textContent === currentPlayer &&
+      squares[i + 6].textContent === currentPlayer
+    ) {
+      return showWinner();
+    }
+  }
+
+  // check diagonals
+  if (
+    squares[0].textContent === currentPlayer &&
+    squares[4].textContent === currentPlayer &&
+    squares[8].textContent === currentPlayer
+  ) {
+    return showWinner();
+  }
+
+  if (
+    squares[2].textContent === currentPlayer &&
+    squares[4].textContent === currentPlayer &&
+    squares[6].textContent === currentPlayer
+  ) {
+    return showWinner();
+  }
+}
+
+function showWinner() {
+  alert(`Player ${currentPlayer} wins!`);
+  for (const square of squares) {
+    square.removeEventListener('click', handleClick);
+  }
+}
+
+  
 }
